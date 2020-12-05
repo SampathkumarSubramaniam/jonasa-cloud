@@ -1,3 +1,4 @@
+import os
 import shutil
 import socket
 
@@ -41,7 +42,11 @@ def retrive_cpu_usage():
 
 @app.route('/monitor_resources')
 def monitor_resources():
-    disk_status = retrieve_disk_status(drive = "c:/")
+    if os.name == "nt":
+        drive = "c:/"
+    else:
+        drive = "/"
+    disk_status = retrieve_disk_status(drive = drive)
     memory_status = retrieve_memory_status()
     cpu_usage = retrive_cpu_usage()
     return render_template("monitor_resources.html", disk = disk_status, memory = memory_status,
