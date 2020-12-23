@@ -1,1 +1,2 @@
 
+kubectl exec --stdin --tty jonasa-cloud-79d9d89457-n2wt7 -- /bin/sh
