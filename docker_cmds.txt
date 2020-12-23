@@ -14,3 +14,7 @@ to list:
 -------
 sudo docker images
 sudo docker rm -f {image-id}
+
+sudo apt install python-pip
+sudo docker run -p 4444:4444 -d jonasa-cloud
+sudo docker kill d4029d6232d4   
