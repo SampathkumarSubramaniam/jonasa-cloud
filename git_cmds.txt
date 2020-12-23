@@ -1,0 +1,4 @@
+git config --global user.name 'sampath'
+git config --global user.email 'sampathkumar.subramaniam@gmail.com'
+git config --global core.editor 'vim'
+git config --global credentiala.helper cache
