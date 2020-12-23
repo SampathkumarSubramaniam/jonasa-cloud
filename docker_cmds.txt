@@ -13,3 +13,4 @@ sudo docker image build -t jonasa-cloud .
 to list:
 -------
 sudo docker images
+sudo docker rm -f {image-id}
