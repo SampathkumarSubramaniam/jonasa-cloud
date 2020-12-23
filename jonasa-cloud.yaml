@@ -1,0 +1,56 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "jonasa-cloud"
+  namespace: "default"
+  labels:
+    app: "jonasa-cloud"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: "jonasa-cloud"
+  template:
+    metadata:
+      labels:
+        app: "jonasa-cloud"
+    spec:
+      containers:
+        - name: "jonasa-cloud-sha256-1"
+          image: "gcr.io/analog-sum-299523/jonasa-cloud@sha256:44207add36e2be49613257e32a19a2957ccd7b23bf0189b28706c8d17aa8d6e3"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4444
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 4444
+              initialDelaySeconds: 10
+              periodSeconds: 5
+              successThreshold: 1
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "jonasa-cloud-hpa-g7zk"
+  namespace: "default"
+  labels:
+    app: "jonasa-cloud"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "jonasa-cloud"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        targetAverageUtilization: 80
