@@ -12,7 +12,7 @@ Bootstrap(app)
 
 @app.route('/romeo.txt')
 def romeo():
-    return "<html><body>This is a romeo.txt file</html"
+    return "<html><body>This is a romeo.txt file - Only for tests.</html"
 
 
 @app.route('/')
