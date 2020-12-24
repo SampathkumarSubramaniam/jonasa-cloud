@@ -18,7 +18,7 @@ def romeo():
 @app.route('/blow_resources')
 def blow():
     count = list()
-    for number in range(10000000000):
+    for number in range(10000):
         count.append(number)
     return "<html><body>This is a romeo.txt file - Only for tests :). Juliet txt will follow. by, Jonasa.." + str(
         count[100]) + "</html>"
