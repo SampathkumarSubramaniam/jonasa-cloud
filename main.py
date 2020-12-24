@@ -15,6 +15,14 @@ def romeo():
     return "<html><body>This is a romeo.txt file - Only for tests :). Juliet txt will follow.</html"
 
 
+@app.route('/blow_resources')
+def blow():
+    count = list()
+    for number in range(10000000000):
+        list.append(number)
+    return render_template("index.html")
+
+
 @app.route('/')
 def index():
     return render_template("index.html")

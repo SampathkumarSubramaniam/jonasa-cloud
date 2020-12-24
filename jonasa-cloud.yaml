@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: "jonasa-cloud-sha256-1"
-          image: "gcr.io/analog-sum-299523/jonasa-cloud@sha256:44207add36e2be49613257e32a19a2957ccd7b23bf0189b28706c8d17aa8d6e3"
+          image: "gcr.io/analog-sum-299523/jonasa-cloud:44207add36e2be49613257e32a19a2957ccd7b23bf0189b28706c8d17aa8d6e3"
           imagePullPolicy: Always
           ports:
             - containerPort: 4444
