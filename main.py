@@ -3,11 +3,24 @@ import shutil
 import socket
 
 import psutil
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session, redirect, url_for
 from flask_bootstrap import Bootstrap
+from process_tweets import process_tweet
 
 app = Flask(__name__)
 Bootstrap(app)
+
+app.config['SESSION_TYPE'] = 'memcached'
+app.config['SECRET_KEY'] = 'super secret key'
+credentials = dict()
+credentials['user_name'] = 'admin'
+credentials['password'] = '!Welcome123'
+
+
+@app.route('/twitter')
+def tw():
+    tweets = process_tweet()
+    return render_template("tweets.html", tweets=tweets)
 
 
 @app.route('/romeo.txt')
@@ -24,8 +37,18 @@ def blow():
         count[100]) + "</html>"
 
 
+@app.route('/execute', methods=['GET', 'POST'])
+def execute():
+    if request.form['user_name'] != credentials['user_name'] or request.form['password'] != credentials['password']:
+        error = 'Invalid Credentials. Please try again.'
+    else:
+        session['logged_in'] = True
+        return render_template("home.html")
+    return render_template("index.html", error=error)
+
+
 @app.route('/')
-def index():
+def login():
     return render_template("index.html")
 
 
