@@ -6,15 +6,13 @@ import psutil
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_bootstrap import Bootstrap
 from process_tweets import process_tweet
+from gcp_services.retrieve_web_credentials import get_credentials
 
 app = Flask(__name__)
 Bootstrap(app)
 
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'super secret key'
-credentials = dict()
-credentials['user_name'] = 'admin'
-credentials['password'] = '!Welcome123'
 
 
 @app.route('/twitter')
@@ -39,6 +37,8 @@ def blow():
 
 @app.route('/execute', methods=['GET', 'POST'])
 def execute():
+    credentials = dict()
+    credentials = get_credentials()
     if request.form['user_name'] != credentials['user_name'] or request.form['password'] != credentials['password']:
         error = 'Invalid Credentials. Please try again.'
     else:
