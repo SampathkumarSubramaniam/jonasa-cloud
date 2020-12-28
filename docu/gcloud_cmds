@@ -1,0 +1,1 @@
+gcloud functions deploy cf_send_mail --trigger-topic jonasa-web-wrong-credentials --runtime python38
