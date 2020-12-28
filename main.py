@@ -6,7 +6,7 @@ import psutil
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_bootstrap import Bootstrap
 from process_tweets import process_tweet
-from gcp_services.retrieve_web_credentials import get_credentials
+from gcp_services.retrieve_web_credentials import get_credentials, publish_msg
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -41,6 +41,8 @@ def execute():
     credentials = get_credentials()
     if request.form['user_name'] != credentials['user_name'] or request.form['password'] != credentials['password']:
         error = 'Invalid Credentials. Please try again.'
+        remote_addr = str(request.remote_addr)
+        publish_msg(f"Wrong credentials from IP: {remote_addr}")
     else:
         session['logged_in'] = True
         return render_template("home.html")

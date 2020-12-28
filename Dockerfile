@@ -1,7 +1,7 @@
-FROM python:3.8.7-alpine
+FROM python:3.8-slim
 WORKDIR /jonasa_cloud
 ADD . /jonasa_cloud
-RUN apk update 
-RUN apk add linux-headers gcc libc-dev g++ python3-dev
+RUN apt-get update
+RUN apt-get install python3-dev -y
 RUN pip3 install -r requirements.txt
 CMD ["python","main.py"]
