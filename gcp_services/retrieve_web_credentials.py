@@ -21,5 +21,5 @@ def access_secret_version(secret_id, version_id="latest"):
     return response.payload.data.decode('UTF-8')
 
 
-def get_credentials():
-    return json.loads(access_secret_version("jonasa-login"))
+def get_credentials(secret_name):
+    return json.loads(access_secret_version(secret_name))

@@ -38,7 +38,7 @@ def blow():
 @app.route('/execute', methods=['GET', 'POST'])
 def execute():
     credentials = dict()
-    credentials = get_credentials()
+    credentials = get_credentials("jonasa-login")
     if request.form['user_name'] != credentials['user_name'] or request.form['password'] != credentials['password']:
         error = 'Invalid Credentials. Please try again.'
         remote_addr = str(request.remote_addr)
