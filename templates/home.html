@@ -49,6 +49,15 @@
                     <a class="dropdown-item" href="#">Image Processing</a>
                     <a class="dropdown-item" href={{url_for("tw")}}>Tweets</a>
                 </div>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">Monitor Resources</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href={{url_for("blow_memory")}}>Blowup Memory</a>
+                    <a class="dropdown-item" href={{url_for("blow_cpu")}}>Blowup CPU</a>
+                    <a class="dropdown-item" href="#">Blowup Network</a>
+                </div>
+            </li>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -63,9 +72,14 @@
     <div class="starter-template">
         <h1>Sampath's Python Space</h1>
         <p class="lead">This contains all applications developed by Sampath</p>
+
+        {% if msg %}
+        <div class="p-3 mb-2 bg-primary text-white">
+            {{ msg }}
+        </div>
+        {% endif %}
+
     </div>
-
-
 </div><!-- /.container -->
 
 

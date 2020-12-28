@@ -1,18 +1,43 @@
 import os
 import shutil
 import socket
+from datetime import time
+from multiprocessing import Pool
+from multiprocessing import cpu_count
+import signal
+from time import sleep
 
 import psutil
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_bootstrap import Bootstrap
 from process_tweets import process_tweet
 from gcp_services.retrieve_web_credentials import get_credentials, publish_msg
+from cpu_blow import *
 
 app = Flask(__name__)
 Bootstrap(app)
 
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'super secret key'
+
+
+@app.route('/blow_mem')
+def blow_memory():
+    memory_blow_up()
+    return render_template("home.html", msg="Finished eating memory :).")
+
+
+def memory_blow_up():
+    blow = list()
+    for number in range(10000000):
+        blow.append(number)
+    sleep(10)
+
+
+@app.route('/blow_cpu')
+def blow_cpu():
+    execute_cpu_blow()
+    return render_template("home.html", msg="Finished consuming " + str(cpu_count()) + " CPUs :).")
 
 
 @app.route('/twitter')
@@ -24,15 +49,6 @@ def tw():
 @app.route('/romeo.txt')
 def romeo():
     return "<html><body>This is a romeo.txt file - Only for tests :). Juliet txt will follow. by, Jonasa..</html"
-
-
-@app.route('/blow_resources')
-def blow():
-    count = list()
-    for number in range(10000):
-        count.append(number)
-    return "<html><body>This is a romeo.txt file - Only for tests :). Juliet txt will follow. by, Jonasa.." + str(
-        count[100]) + "</html>"
 
 
 @app.route('/execute', methods=['GET', 'POST'])

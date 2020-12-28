@@ -1,4 +1,6 @@
 import smtplib
+from time import sleep
+
 from google.cloud import secretmanager
 import json
 
@@ -28,6 +30,3 @@ def cf_send_mail(data, context):
     server.login(credentials['MAIL_USERNAME'], credentials['MAIL_PASSWORD'])
     server.sendmail(sender, recipients, message)
     print("Successfully sent email")
-
-
-cf_send_mail("a", "b")
