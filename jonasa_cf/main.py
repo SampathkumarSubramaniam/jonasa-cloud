@@ -1,22 +1,24 @@
-from gcp_services.retrieve_web_credentials import get_credentials
 import smtplib
+from google.cloud import secretmanager
+import json
 
 PROJECT_ID = "analog-sum-299523"
 
-credentials = dict()
-credentials = get_credentials("jonasa-mail")
 
-mail_settings = {
-    "MAIL_SERVER": credentials['MAIL_SERVER'],
-    "MAIL_PORT": credentials['MAIL_PORT'],
-    "MAIL_USE_TLS": False,
-    "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": credentials['MAIL_USERNAME'],
-    "MAIL_PASSWORD": credentials['MAIL_PASSWORD']
-}
+def access_secret_version(secret_id, version_id="latest"):
+    client = secretmanager.SecretManagerServiceClient()
+    name = f"projects/{PROJECT_ID}/secrets/{secret_id}/versions/{version_id}"
+    response = client.access_secret_version(name=name)
+    return response.payload.data.decode('UTF-8')
+
+
+def get_credentials(secret_name):
+    return json.loads(access_secret_version(secret_name))
 
 
 def cf_send_mail(data, context):
+    credentials = dict()
+    credentials = get_credentials("jonasa-mail")
     sender = credentials['MAIL_USERNAME']
     subject = "Login Attempt with wrong credentials"
     recipients = "sampathkumar.app@gmail.com"
