@@ -24,13 +24,10 @@ def cf_send_mail(data, context):
     recipients = "sampathkumar.app@gmail.com"
     message = "Hello," + subject
     print("Sending mail")
-    try:
-        server = smtplib.SMTP_SSL(credentials['MAIL_SERVER'], credentials['MAIL_PORT'])
-        server.login(credentials['MAIL_USERNAME'], credentials['MAIL_PASSWORD'])
-        server.sendmail(sender, recipients, message)
-        print("Successfully sent email")
-    except Exception as err:
-        print(f"Error: unable to send email:{err}")
+    server = smtplib.SMTP_SSL(credentials['MAIL_SERVER'], credentials['MAIL_PORT'])
+    server.login(credentials['MAIL_USERNAME'], credentials['MAIL_PASSWORD'])
+    server.sendmail(sender, recipients, message)
+    print("Successfully sent email")
 
 
 cf_send_mail("a", "b")
