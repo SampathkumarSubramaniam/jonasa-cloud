@@ -34,6 +34,12 @@ def memory_blow_up():
     sleep(10)
 
 
+@app.route('/happy_birthday', methods=['GET', 'POST'])
+def happy_birth_day():
+    # insert()
+    return render_template("add_friends.html")
+
+
 @app.route('/blow_cpu')
 def blow_cpu():
     execute_cpu_blow()
