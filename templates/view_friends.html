@@ -23,6 +23,8 @@
             padding: 3rem 1.5rem;
             text-align: center;
         }
+
+
     </style>
 </head>
 
@@ -44,20 +46,8 @@
                    aria-haspopup="true" aria-expanded="false">Projects</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href={{url_for("monitor_resources")}}>Monitor Resources</a>
-                    <a class="dropdown-item" href={{url_for("happy_birth_day")}}>Happy Birthday - Whatsapp :)</a>
-                    <a class="dropdown-item" href="#">Word Cloud Generation</a>
-                    <a class="dropdown-item" href="#">Image Processing</a>
-                    <a class="dropdown-item" href={{url_for("tw")}}>Tweets</a>
+                    <a class="dropdown-item" href="#">Happy Birthday</a>
                 </div>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">Monitor Resources</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href={{url_for("blow_memory")}}>Blowup Memory</a>
-                    <a class="dropdown-item" href={{url_for("blow_cpu")}}>Blowup CPU</a>
-                    <a class="dropdown-item" href="#">Blowup Network</a>
-                </div>
-            </li>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -70,43 +60,27 @@
 <div class="container">
 
     <div class="starter-template">
-        <h1>Sampath's Python Space</h1>
-        <p class="lead">This contains all applications developed by Sampath</p>
+        <h1 class="text-primary">Tweets of the Day</h1>
         <p></p>
-
-        <p>
-            Provide your friends details to send birthday wishes.
-        </p>
-
-        {% if msg %}
-        <div class="p-3 mb-2 bg-primary text-white">
-            {{ msg }}
-        </div>
-        {% endif %}
-        <form method="POST" enctype="multipart/form-data" action='/happy_birth_day'>
-            <div class="form-group">
-                <label for="inputName" class="font-weight-bold">Name</label>
-                <input type="text" name="name" id="title" value="" class="form-control"/>
-            </div>
-
-            <div class="form-group">
-                <label for="dob" class="font-weight-bold">DoB</label>
-                <input type="text" name="dob" id="author" value="" class="form-control"/>
-            </div>
-
-            <div class="form-group">
-                <label for="publishedDate" class="font-weight-bold">Mobile #</label>
-                <input type="text" name="mobile" id="publishedDate" value=""
-                       class="form-control"/>
-            </div>
-            <div class="form-group">
-                <label for="image" class="font-weight-bold">Photo</label>
-                <input type="file" name="image" id="image" class="form-control"/>
-            </div>
-            <button type="submit" class="btn btn-success">Save</button>
-        </form>
-
+        <table class="table table-striped" border="0">
+            <thead>
+            <tr>
+                <th scope="col" align="center">Screen Name</th>
+                <th scope="col" align="center">Tweet</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for screen_name, tweet in tweets.items() %}
+                <tr>
+                <td align="left">{{screen_name}}</td>
+                <td align="left">{{tweet}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+
+
 </div><!-- /.container -->
 
 

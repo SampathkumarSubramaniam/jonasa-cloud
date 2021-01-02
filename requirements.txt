@@ -4,4 +4,5 @@ psutil==5.8.0
 google-cloud-secret-manager==2.1.0
 google-cloud-pubsub==2.2.0
 google-cloud-datastore==2.1.0
+google-cloud-profiler==2.0.4
 Flask-Mail==0.9.1

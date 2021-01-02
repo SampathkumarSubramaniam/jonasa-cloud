@@ -6,7 +6,8 @@ from multiprocessing import Pool
 from multiprocessing import cpu_count
 import signal
 from time import sleep
-
+from happy_birthday import birthday_helper
+import googlecloudprofiler
 import psutil
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_bootstrap import Bootstrap
@@ -34,10 +35,17 @@ def memory_blow_up():
     sleep(10)
 
 
-@app.route('/happy_birthday', methods=['GET', 'POST'])
+@app.route('/happy_birth_day', methods=['GET', 'POST'])
 def happy_birth_day():
-    # insert()
-    return render_template("add_friends.html")
+    if request.method == 'GET':
+        return render_template("add_friends.html")
+    elif request.method == 'POST':
+        data = request.form.to_dict(flat=True)
+        birthday_helper.insert(data)
+        friends_list = birthday_helper.refactor()
+        return render_template("add_friends.html")
+    else:
+        return "Method not supported for /questions/add"
 
 
 @app.route('/blow_cpu')
@@ -103,13 +111,8 @@ def retrive_cpu_usage():
 
 @app.route('/monitor_resources')
 def monitor_resources():
-    if os.name == "nt":
-        drive = "c:/"
-    else:
-        drive = "/"
-    disk_status = retrieve_disk_status(drive=drive)
-    memory_status = retrieve_memory_status()
-    cpu_usage = retrive_cpu_usage()
+    data = request.form.to_dict(flat=True)
+    birthday_helper.insert(data)
     return render_template("monitor_resources.html", disk=disk_status, memory=memory_status,
                            cpu_usage=cpu_usage, host=get_host_name())
 
@@ -120,4 +123,16 @@ def hello_world():
 
 
 if __name__ == "__main__":
+    try:
+        googlecloudprofiler.start(
+            service='jonasa-profiler',
+            service_version='1.0.1',
+            # verbose is the logging level. 0-error, 1-warning, 2-info,
+            # 3-debug. It defaults to 0 (error) if not set.
+            verbose=3,
+            # project_id must be set if not running on GCP.
+            # project_id='my-project-id',
+        )
+    except (ValueError, NotImplementedError) as exc:
+        print(exc)  # Handle errors here
     app.run(host='0.0.0.0', port=4444)
